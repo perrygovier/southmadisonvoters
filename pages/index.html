@@ -1,0 +1,192 @@
+{% extends '_layouts/default.html' %}
+{% set id = "home" %}
+
+{% block main %}
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Make your voice heard</h1>
+      <p class="lead">
+        We need a government that represents South Madison. <strong>Vote 
+        November 6<sup>th</sup>!</strong>
+      </p>
+      <p>
+        <button href="https://goo.gl/forms/H7PPPEXvDAfVLaR92"
+                class="btn btn-primary my-2">How Can I Help?</button>
+        <a href="http://bit.ly/LibVoteHours" 
+           target="_blank" 
+           class="btn btn-success my-2">Early Voting Info</a>
+      </p>
+    </div>
+    <a href="https://www.instagram.com/fowlerkenton/" 
+       target="_blank"
+       class="credit">Photo by Keton Fowler</a>
+  </section>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for item in feed %}
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              {% if item.attachments.data and 
+                  item.attachments.data[0].media  %}
+                {% set textClass = 'normal' %}
+                <img class="card-img-top" 
+                     src="{{ item.attachments.data[0].media.image.src }}" 
+                     alt="{{ item.caption }}">
+              {% elif item.full_picture %}
+                {% set textClass = 'normal' %}
+                <img class="card-img-top" 
+                     src="{{ item.full_picture }}" 
+                     alt="{{ item.caption }}">
+              {% elif item.attachments.data and 
+                  item.attachments.data[0].subattachments and
+                  item.attachments.data[0].subattachments.data[0] and
+                  item.attachments.data[0].subattachments.data[0].media  %}
+                {% set textClass = 'normal' %}
+                <img class="card-img-top" 
+                     src="{{ item.attachments.data[0].subattachments.data[0].media.image.src }}" 
+                     alt="{{ item.caption }}">
+              {% elif item.message.length < 200 %}
+                {% set textClass = 'big' %}
+              {% endif %}
+              <div class="card-body {{ textClass }}">
+                <p class="card-text">{{ item.message | safe | urlize }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="{{ item.permalink_url}}" 
+                       class="btn btn-sm 
+                        {% if textClass == 'big' %}
+                          btn-outline-light
+                        {% else %}
+                          btn-outline-primary
+                        {% endif %}"
+                       target="_blank">More Info</a>
+                  </div>
+                  <small class="
+                    {% if textClass == 'big' %}
+                      text-light
+                    {% else %}
+                      text-muted
+                    {% endif %}">{{ item.created_time }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {# <pre><code>{{feed|dump(2)}}</code></pre> #}
+    </div>
+  </div>
+</main>
+{% endblock %}
+ 
+{% block modals %}
+<div class="modal fade" 
+     id="signupModal" 
+     tabindex="-1" 
+     role="dialog" 
+     aria-labelledby="signupModalLabel" 
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="signupModalLabel">
+          South Madison Voters Wants You!
+        </h4>
+        <button type="button" 
+                class="close" 
+                data-dismiss="modal" 
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          At south Madison voters, we aren't asking for financial donations. 
+          We're asking for your time. There are many ways you can help in
+          whatever way you're most comfortable with
+        </p>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="signup-name">Name</label>
+              <input type="text" 
+                     class="form-control" 
+                     id="signup-name" 
+                     placeholder="John Doe">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="signup-zip">Zip</label>
+              <input type="number" 
+                     class="form-control" 
+                     id="signup-zip" 
+                     placeholder="537**">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="signup-phone">Phone</label>
+              <input type="tel" 
+                     class="form-control" 
+                     id="signup-phone" 
+                     placeholder="608 555 1212">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" 
+                     class="form-control" 
+                     id="exampleInputEmail1" 
+                     aria-describedby="emailHelp" 
+                     placeholder="Enter email">
+            </div>
+          </div>
+        </div>
+        <p>How would you like to help</p>
+        <div class="form-group">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="signup-canvas">
+            <label class="form-check-label" for="signup-canvas">Canvas</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="signup-call">
+            <label class="form-check-label" for="signup-call">
+              Make Phone Calls</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="signup-office">
+            <label class="form-check-label" for="signup-office">
+              Office Help</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="signup-other">Other ways you can help</label>
+          <input type="text" 
+                 class="form-control" 
+                 id="signup-other" 
+                 placeholder="Graphic design, snacks, office supplies...">
+        </div>
+        <div class="form-group">
+          <label for="signup-availability">
+            Availability and other things we should know
+          </label>
+          <textarea class="form-control" 
+                    id="signup-availability" 
+                    rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" 
+                class="btn btn-secondary" 
+                data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
