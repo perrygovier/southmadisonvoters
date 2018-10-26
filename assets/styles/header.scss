@@ -2,6 +2,17 @@ header {
   .navbar-brand svg {
     margin: -11px 16px 0 0;
   }
+
+  .navbar-nav {
+    margin-left: auto;
+  }
+
+  .nav-icon {
+    font-size: 27px;
+    position: relative;
+    top: 4px;
+    margin-left: 8px;
+  }
 }
 
 .navbar-custom {
