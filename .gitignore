@@ -64,3 +64,4 @@ typings/
 static/main.css
 static/scripts.js
 .DS_Store
+/.vscode
